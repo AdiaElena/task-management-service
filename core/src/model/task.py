@@ -7,7 +7,7 @@ class Task(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    description = Column(String, nullable=True)
-    priority = Column(Integer, default=2)
-    due_date = Column(DateTime)
-    completed = Column(Boolean, default=False)
+    description = Column(String, nullable=True) # Optional
+    priority = Column(Integer,  nullable=False) # Required (1=High, 2=Medium, 3=Low)
+    due_date = Column(DateTime, nullable=False)
+    completed = Column(Boolean, default=False) # Defaults to incomplete
