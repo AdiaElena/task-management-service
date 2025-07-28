@@ -50,9 +50,9 @@ This service lets you create, read, update, and delete tasks, each with a title,
     uvicorn src.main:app --reload
 
 ## Useful Links
-- Server live at: http://127.0.0.1:8000
-- Swagger UI: http://127.0.0.1:8000/docs
-- Redoc UI: http://127.0.0.1:8000/redoc
+- Server live at: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+- Redoc UI: http://localhost:8000/redoc
 
 ## You can also spin up the service in Docker:
 docker build -t task‑service .
