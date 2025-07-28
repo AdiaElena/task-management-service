@@ -44,18 +44,18 @@ This service lets you create, read, update, and delete tasks, each with a title,
     ALLOWED_ORIGINS=*
 
 4. **Initialise database (This creates tasks.db (SQLite) with the tasks table.)**
-    python init_db.py
+    python -m src.core.init_db
 
 5. **Start the server**
     uvicorn src.main:app --reload
-
-## You can also spin up the service in Docker:
-docker-compose up --build
 
 ## Useful Links
 - Server live at: http://localhost:8000
 - Swagger UI: http://localhost:8000/docs
 - Redoc UI: http://localhost:8000/redoc
+
+## You can also spin up the service in Docker:
+docker-compose up --build
 
 ## Testing
 

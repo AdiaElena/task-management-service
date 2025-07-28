@@ -53,7 +53,7 @@ def get_tasks(
     :return: List of Task instances
     """
     effective_limit = min(limit, MAX_PAGE_SIZE)
-    query = db.query(Task).order_by(Task.due_date.asc(), Task.id)
+    query = db.query(Task).order_by(Task.id)
 
     if completed is not None:
         query = query.filter(Task.completed == completed)
