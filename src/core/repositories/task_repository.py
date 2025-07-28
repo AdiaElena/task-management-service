@@ -1,6 +1,7 @@
 from typing import Optional, List
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from uuid import UUID
 
 from src.core.config import DEFAULT_PAGE_LIMIT, MAX_PAGE_SIZE
 from src.core.models.task import Task
@@ -20,7 +21,7 @@ def create_task(db: Session, task: TaskCreate) -> Task:
     db.refresh(db_task)
     return db_task
 
-def get_task(db: Session, task_id: int) -> Optional[Task]:
+def get_task(db: Session, task_id: UUID) -> Optional[Task]:
     """
     Retrieve a Task by its ID.
 
@@ -28,7 +29,11 @@ def get_task(db: Session, task_id: int) -> Optional[Task]:
     :param task_id: ID of the task to retrieve
     :return: Task instance or None if not found
     """
-    return db.query(Task).filter(Task.id == task_id).first()
+    return (
+        db.query(Task)
+        .filter(Task.id == str(task_id))
+        .first()
+    )
 
 def get_tasks(
     db: Session,
@@ -49,10 +54,12 @@ def get_tasks(
     """
     effective_limit = min(limit, MAX_PAGE_SIZE)
     query = db.query(Task).order_by(Task.id)
+
     if completed is not None:
         query = query.filter(Task.completed == completed)
     if priority is not None:
         query = query.filter(Task.priority == priority)
+
     return query.offset(skip).limit(effective_limit).all()
 
 def count_tasks(
@@ -75,7 +82,7 @@ def count_tasks(
         query = query.filter(Task.priority == priority)
     return query.scalar() or 0
 
-def update_task(db: Session, task_id: int, task_update: TaskUpdate) -> Task:
+def update_task(db: Session, task_id: UUID, task_update: TaskUpdate) -> Task:
     """
     Update an existing Task. Fields omitted in the update schema remain unchanged;
     explicit null values overwrite existing data.
@@ -93,7 +100,7 @@ def update_task(db: Session, task_id: int, task_update: TaskUpdate) -> Task:
     db.refresh(task)
     return task
 
-def delete_task(db: Session, task_id: int) -> None:
+def delete_task(db: Session, task_id: UUID) -> None:
     """
     Delete a Task by its ID.]
 

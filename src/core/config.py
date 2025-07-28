@@ -16,3 +16,6 @@ DEFAULT_PAGE_LIMIT = _int_env("DEFAULT_PAGE_LIMIT", 20)
 
 # Maximum allowed page size to cap queries
 MAX_PAGE_SIZE = _int_env("MAX_PAGE_SIZE", 50)
+
+# CORS: comma‑separated list of allowed origins (defaults to ["*"])
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")

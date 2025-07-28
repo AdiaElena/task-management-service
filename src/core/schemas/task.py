@@ -1,13 +1,18 @@
 from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
 
 # Base class for common fields
 class TaskBase(BaseModel):
     title: str
     description: Optional[str] = None
-    priority: int = Field(..., ge=1, le=3)  # Required, range 1-3
+    priority: int = Field(..., ge=1, le=3, description="1=High, 2=Medium, 3=Low")  # Required, range 1-3
     due_date: datetime
+
+    model_config = ConfigDict(
+        extra="ignore",         # ignore any unexpected fields
+    )
 
 # Schema used for task creation
 class TaskCreate(TaskBase):
@@ -21,9 +26,13 @@ class TaskUpdate(BaseModel):
     due_date: Optional[datetime] = None
     completed: Optional[bool] = None
 
+    model_config = ConfigDict(extra="ignore")
+
 # Output schema
 class TaskOut(TaskBase):
-    id: int
+    id: UUID
     completed: bool
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(
+        from_attributes=True,
+    )

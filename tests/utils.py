@@ -1,12 +1,21 @@
+import uuid
 from datetime import datetime, timezone
+from uuid import UUID
 
 class DummyTaskModel:
     """
     In‑memory stand‑in for the Task ORM model,
     with Pydantic hooks so TaskOut.model_validate works.
     """
-    def __init__(self, id: int, title: str, description: str,
-                 priority: int, due_date, completed: bool = False):
+    def __init__(
+        self,
+        id: UUID,
+        title: str,
+        description: str,
+        priority: int,
+        due_date: datetime,
+        completed: bool = False,
+    ):
         self.id = id
         self.title = title
         self.description = description
@@ -22,14 +31,16 @@ class DummyTaskModel:
     def validate(cls, v):
         return v
 
-
-def make_dummy_task(id: int = 123) -> DummyTaskModel:
-    """Factory for a DummyTaskModel instance."""
+def make_dummy_task(id: UUID | None = None) -> DummyTaskModel:
+    """
+    Factory for a DummyTaskModel instance.
+    By default emits a fresh UUID4 instance.
+    """
     return DummyTaskModel(
-        id=id,
-        title="Dummy",
-        description="Desc",
-        priority=2,
-        due_date=datetime.now(timezone.utc),
-        completed=False,
+        id = id or uuid.uuid4(),
+        title = "Dummy",
+        description = "Desc",
+        priority = 2,
+        due_date = datetime.now(timezone.utc),
+        completed = False,
     )

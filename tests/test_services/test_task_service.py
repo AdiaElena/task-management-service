@@ -13,10 +13,11 @@ from src.core.services.task_service import (
 from src.core.schemas.task import TaskCreate, TaskUpdate, TaskOut
 from src.core.exceptions import NotFoundError
 
-from tests.utils import DummyTaskModel  # import only your helper
+from tests.utils import DummyTaskModel  # your in‑memory stand‑in
+from tests.conftest import session, dummy_task  # fixtures
 
-# Note: No `from tests.conftest import session, dummy_task` here —
-# pytest will inject `session` and `dummy_task` fixtures by name.
+NOT_FOUND_UUID = "00000000-0000-0000-0000-000000000000"
+
 
 def test_create_task_unit(monkeypatch, dummy_task, session):
     def fake_repo_create(db, payload):
@@ -57,7 +58,7 @@ def test_get_task_unit_not_found(monkeypatch, session):
         lambda db, tid: None
     )
     with pytest.raises(NotFoundError):
-        get_task(session, 999)
+        get_task(session, NOT_FOUND_UUID)
 
 
 def test_list_tasks_unit(monkeypatch, dummy_task, session):
@@ -65,7 +66,13 @@ def test_list_tasks_unit(monkeypatch, dummy_task, session):
         "src.core.services.task_service.repo_list",
         lambda db, skip, limit, completed, priority: [dummy_task],
     )
-    outs: List[TaskOut] = list_tasks(session, skip=0, limit=5, completed=None, priority=None)
+    outs: List[TaskOut] = list_tasks(
+        session,
+        skip=0,
+        limit=5,
+        completed=None,
+        priority=None
+    )
     assert len(outs) == 1
     assert outs[0].id == dummy_task.id
 
@@ -79,7 +86,13 @@ def test_list_tasks_with_count_unit(monkeypatch, dummy_task, session):
         "src.core.services.task_service.repo_list",
         lambda db, skip, limit, completed, priority: [dummy_task, dummy_task],
     )
-    page, total = list_tasks_with_count(session, skip=1, limit=2, completed=None, priority=None)
+    page, total = list_tasks_with_count(
+        session,
+        skip=1,
+        limit=2,
+        completed=None,
+        priority=None
+    )
     assert total == 7
     assert len(page) == 2
 
@@ -113,7 +126,7 @@ def test_update_task_unit_not_found(monkeypatch, session):
         lambda db, tid: None
     )
     with pytest.raises(NotFoundError):
-        update_task(session, 99, TaskUpdate(title="X"))
+        update_task(session, NOT_FOUND_UUID, TaskUpdate(title="X"))
 
 
 def test_delete_task_unit_success(monkeypatch, dummy_task, session):
@@ -137,4 +150,4 @@ def test_delete_task_unit_not_found(monkeypatch, session):
         lambda db, tid: None
     )
     with pytest.raises(NotFoundError):
-        delete_task(session, 1000)
+        delete_task(session, NOT_FOUND_UUID)

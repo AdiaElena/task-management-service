@@ -2,8 +2,10 @@ from src.core.database import Base, engine
 from src.core.models.task import Task
 
 def init_db():
-    Base.metadata.create_all(bind=engine)
-    print("Database created successfully!")
+    """Create all database tables defined on Base."""
+    with engine.begin() as conn:
+        Base.metadata.create_all(bind=conn)
+    print("✅ Database created successfully!")
 
 if __name__ == "__main__":
     init_db()

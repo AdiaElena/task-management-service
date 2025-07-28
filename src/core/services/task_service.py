@@ -1,7 +1,9 @@
 from typing import List, Optional, Tuple
+from uuid import UUID
 from sqlalchemy.orm import Session
 
 from src.core.exceptions import NotFoundError
+from src.core.config import DEFAULT_PAGE_LIMIT
 from src.core.repositories.task_repository import (
     create_task as repo_create,
     get_task   as repo_get,
@@ -28,7 +30,7 @@ def create_task(db: Session, payload: TaskCreate) -> TaskOut:
     return TaskOut.model_validate(task)
 
 
-def get_task(db: Session, task_id: int) -> TaskOut:
+def get_task(db: Session, task_id: UUID) -> TaskOut:
     """
     Business logic for retrieving a single Task by ID.
 
@@ -62,10 +64,13 @@ def list_tasks(
     :param priority: optional priority filter
     :return: list of TaskOut schemas
     """
+
+    effective_limit = limit if limit is not None else DEFAULT_PAGE_LIMIT
+
     tasks = repo_list(
         db, 
         skip=skip, 
-        limit=limit, 
+        limit=effective_limit, 
         completed=completed, 
         priority=priority
     )
@@ -92,6 +97,7 @@ def list_tasks_with_count(
     :param priority: optional priority filter
     :return: (list of TaskOut, total count of matching tasks)
     """
+    effective_limit = limit if limit is not None else DEFAULT_PAGE_LIMIT
     total = repo_count(
         db, 
         completed=completed, 
@@ -100,14 +106,14 @@ def list_tasks_with_count(
     tasks = repo_list(
         db, 
         skip=skip, 
-        limit=limit, 
+        limit=effective_limit, 
         completed=completed, 
         priority=priority
     )
     return ([TaskOut.model_validate(t) for t in tasks], total)
 
 
-def update_task(db: Session, task_id: int, patch: TaskUpdate) -> TaskOut:
+def update_task(db: Session, task_id: UUID, patch: TaskUpdate) -> TaskOut:
     """
     Business logic for updating an existing Task.
 
@@ -129,7 +135,7 @@ def update_task(db: Session, task_id: int, patch: TaskUpdate) -> TaskOut:
     return TaskOut.model_validate(updated)
 
 
-def delete_task(db: Session, task_id: int) -> None:
+def delete_task(db: Session, task_id: UUID) -> None:
     """
     Business logic for deleting a Task.
 
