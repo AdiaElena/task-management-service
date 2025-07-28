@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from core.src.database import Base
-import datetime
+from src.core.database import Base
 
 class Task(Base):
     __tablename__ = 'tasks'
@@ -9,5 +8,5 @@ class Task(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=True) # Optional
     priority = Column(Integer,  nullable=False) # Required (1=High, 2=Medium, 3=Low)
-    due_date = Column(DateTime, nullable=False)
+    due_date = Column(DateTime(timezone=True), nullable=False)
     completed = Column(Boolean, default=False) # Defaults to incomplete

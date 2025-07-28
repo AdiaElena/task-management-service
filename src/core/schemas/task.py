@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -15,16 +15,15 @@ class TaskCreate(TaskBase):
 
 # Schema for updating tasks (all optional)
 class TaskUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
+    title: Optional[str] = None
+    description: Optional[str] = None
     priority: Optional[int] = Field(None, ge=1, le=3)
-    due_date: Optional[datetime]
-    completed: Optional[bool]
+    due_date: Optional[datetime] = None
+    completed: Optional[bool] = None
 
 # Output schema
 class TaskOut(TaskBase):
     id: int
     completed: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
