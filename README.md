@@ -55,12 +55,7 @@ This service lets you create, read, update, and delete tasks, each with a title,
 - Redoc UI: http://localhost:8000/redoc
 
 ## You can also spin up the service in Docker:
-docker build -t task‑service .
-docker run -d \
-  --name task‑service \
-  -p 8000:8000 \
-  -e DATABASE_URL=sqlite:///./tasks.db \
-  task‑service
+docker-compose up --build
 
 ## Testing
 
