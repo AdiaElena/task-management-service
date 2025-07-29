@@ -44,7 +44,7 @@ This service lets you create, read, update, and delete tasks, each with a title,
     ALLOWED_ORIGINS=*
 
 4. **Initialise database (This creates tasks.db (SQLite) with the tasks table.)**
-    python -m src.core.init_db
+     python init_db.py
 
 5. **Start the server**
     uvicorn src.main:app --reload
