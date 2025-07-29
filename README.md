@@ -43,14 +43,8 @@ This service lets you create, read, update, and delete tasks, each with a title,
     MAX_PAGE_SIZE=50
     ALLOWED_ORIGINS=*
 
-4. **Initialise database (This creates tasks.db (SQLite) with the tasks table.)**
-     python init_db.py
-
 5. **Start the server**
-    uvicorn src.main:app --reload
-
-## You can also spin up the service in Docker:
-docker-compose up --build
+    docker-compose up --build
 
 ## Useful Links
 - Server live at: http://localhost:8000

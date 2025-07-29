@@ -1,8 +1,18 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.endpoints.tasks import router as tasks_router
 from src.core.config import ALLOWED_ORIGINS
+from src.core.database import Base, engine
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: create all tables
+    Base.metadata.create_all(bind=engine)
+    yield
+    # (Optional) Shutdown logic could go here
 
 app = FastAPI(
     title="Task Management Service",
@@ -11,6 +21,7 @@ app = FastAPI(
     openapi_url="/openapi.json",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan, 
 )
 
 # CORS
