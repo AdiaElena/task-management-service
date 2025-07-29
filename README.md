@@ -70,3 +70,33 @@ This project includes **unit tests** at three layers:
 
 **Run them all with**:  
 pytest
+
+## Example API Requests
+
+**Create a Task**
+curl -X POST http://localhost:8000/tasks/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Buy groceries",
+    "description": "Milk, eggs, bread",
+    "priority": 2,
+    "due_date": "2025-08-01T12:00:00Z"
+  }'
+
+**List Tasks (with Pagination & Filters)**
+curl "http://localhost:8000/tasks/?skip=0&limit=10&completed=false&priority=2"
+
+**Retrieve a Single Task**
+curl http://localhost:8000/tasks/3fa85f64-5717-4562-b3fc-2c963f66afa6
+
+**Update a Task**
+curl -X PUT http://localhost:8000/tasks/3fa85f64-5717-4562-b3fc-2c963f66afa6 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "completed": true,
+    "description": null
+  }'
+
+**Delete a Task**
+curl -X DELETE http://localhost:8000/tasks/3fa85f64-5717-4562-b3fc-2c963f66afa6
+
