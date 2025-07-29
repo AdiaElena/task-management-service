@@ -22,8 +22,8 @@ DUMMY_ID = uuid.UUID("11111111-1111-1111-1111-111111111111")
 
 def make_payload(now: datetime) -> dict:
     return {
-        "title": "Foo",
-        "description": "Bar",
+        "title": "Important Task",
+        "description": "Task Description",
         "priority": 2,
         "due_date": (now + timedelta(days=1)).isoformat(),
     }
@@ -31,9 +31,9 @@ def make_payload(now: datetime) -> dict:
 
 def make_taskout(now: datetime) -> TaskOut:
     return TaskOut(
-        id=DUMMY_ID,                                 # UUID, not int
-        title="Foo",
-        description="Bar",
+        id=DUMMY_ID,                                 
+        title="Important Task",
+        description="Task Description",
         priority=2,
         due_date=now + timedelta(days=1),
         completed=False,
@@ -53,8 +53,8 @@ def test_create_task_endpoint(monkeypatch, now):
     data = resp.json()
     # id should be the stringified UUID
     assert data["id"] == str(DUMMY_ID)
-    assert data["title"] == "Foo"
-    assert data["description"] == "Bar"
+    assert data["title"] == "Important Task"
+    assert data["description"] == "Task Description"
     assert data["priority"] == 2
     assert data["completed"] is False
 

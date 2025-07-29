@@ -1,5 +1,3 @@
-"""Startup module for the Task Management Service API."""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

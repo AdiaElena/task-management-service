@@ -77,10 +77,10 @@ pytest
 curl -X POST http://localhost:8000/tasks/ \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Buy groceries",
-    "description": "Milk, eggs, bread",
-    "priority": 2,
-    "due_date": "2025-08-01T12:00:00Z"
+    "title": "Task Management Backend",
+    "description": "Implement a backend API for task managaement",
+    "priority": 1,
+    "due_date": "2025-07-29T12:00:00Z"
   }'
 
 **List Tasks (with Pagination & Filters)**
@@ -93,8 +93,7 @@ curl http://localhost:8000/tasks/3fa85f64-5717-4562-b3fc-2c963f66afa6
 curl -X PUT http://localhost:8000/tasks/3fa85f64-5717-4562-b3fc-2c963f66afa6 \
   -H "Content-Type: application/json" \
   -d '{
-    "completed": true,
-    "description": null
+    "completed": true
   }'
 
 **Delete a Task**
