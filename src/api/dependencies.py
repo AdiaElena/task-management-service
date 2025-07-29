@@ -1,6 +1,5 @@
 from typing import Generator
 from sqlalchemy.orm import Session
-from fastapi import Depends
 
 from src.core.database import SessionLocal
 

@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 from fastapi.testclient import TestClient
 
 from src.main import app
-from src.core.schemas.task import TaskCreate, TaskOut, TaskUpdate
+from src.core.schemas.task import TaskOut
 from src.core.exceptions import NotFoundError
 
 client = TestClient(app)

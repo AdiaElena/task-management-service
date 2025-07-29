@@ -1,5 +1,4 @@
 from src.core.database import Base, engine
-from src.core.models.task import Task
 
 def init_db():
     """Create all database tables defined on Base."""

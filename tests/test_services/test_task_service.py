@@ -1,6 +1,5 @@
 import pytest
 from typing import List
-from datetime import datetime, timezone
 
 from src.core.services.task_service import (
     create_task,
